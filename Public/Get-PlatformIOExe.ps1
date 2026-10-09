@@ -39,7 +39,8 @@ function Get-PlatformIOExe {
 	}
 
 	if (-not $path) {
-		throw "Could not find '$Name' on PATH or in the PlatformIO core directory. Is PlatformIO installed?"
+		$where = if ($Name -eq 'python') { 'in the PlatformIO core directory' } else { 'on PATH or in the PlatformIO core directory' }
+		throw "Could not find '$Name' $where. Is PlatformIO installed?"
 	}
 
 	# Cache the path for subsequent calls
