@@ -6,46 +6,45 @@
 	Results are cached per name.
 #>
 function Get-PlatformIOExe {
-		[CmdletBinding()]
-		param(
-			[ValidateSet('pio', 'platformio', 'python')]
-			[string] $Name = 'pio'
-		)
+	[CmdletBinding()]
+	param(
+		[ValidateSet('pio', 'platformio', 'python')]
+		[string] $Name = 'pio'
+	)
 
-		# Instantiate the cache if not done yet
-		if (-not $Script:PioExeCache) {
-			$Script:PioExeCache = @{}
-		}
+	# Instantiate the cache if not done yet
+	if (-not $Script:PioExeCache) {
+		$Script:PioExeCache = @{}
+	}
 
-		# If we have a valid cached path, return that
-		$cached = $Script:PioExeCache[$Name]
-		if ($cached -and (Test-Path -LiteralPath $cached)) {
-			return $cached
-		}
+	# If we have a valid cached path, return that
+	$cached = $Script:PioExeCache[$Name]
+	if ($cached -and (Test-Path -LiteralPath $cached)) {
+		return $cached
+	}
 
-		$path = $null
+	$path = $null
 
-		# Check PATH environment variable first
-		$cmd = Get-Command $Name -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
-		if ($cmd -and $Name -ne 'python') {
-			$path = $cmd.Source
-		}
-		# Fallback to PlatformIO's private Python environment
-		else {
-			$isWindows = $Env:OS -eq "Windows_NT"
-			$binDir = Get-PlatformIOScriptsDir -IsWindows:$isWindows
-			$fileName = if ($isWindows) { "$Name.exe" } else { $Name }
-			$candidate = Join-Path $binDir $fileName
-			if (Test-Path -LiteralPath $candidate) { $path = $candidate }
-		}
+	# Check PATH environment variable first
+	$cmd = Get-Command $Name -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+	if ($cmd -and $Name -ne 'python') {
+		$path = $cmd.Source
+	}
+	# Fallback to PlatformIO's private Python environment
+	else {
+		$binDir = Get-PlatformIOScriptsDir
+		$fileName = if ($IsWindows) { "$Name.exe" } else { $Name }
+		$candidate = Join-Path $binDir $fileName
+		if (Test-Path -LiteralPath $candidate) { $path = $candidate }
+	}
 
-		if (-not $path) {
-			throw "Could not find '$Name' on PATH or in the PlatformIO core directory. Is PlatformIO installed?"
-		}
+	if (-not $path) {
+		throw "Could not find '$Name' on PATH or in the PlatformIO core directory. Is PlatformIO installed?"
+	}
 
-		# Cache the path for subsequent calls
-		$Script:PioExeCache[$Name] = $path
+	# Cache the path for subsequent calls
+	$Script:PioExeCache[$Name] = $path
 
-		# Return the executable's path
-		return $path
+	# Return the executable's path
+	return $path
 }

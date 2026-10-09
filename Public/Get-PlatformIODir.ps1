@@ -20,16 +20,11 @@ function Get-PlatformIODir {
 	based on the operating system: "penv\Scripts" for Windows and "penv/bin" for other systems.
 #>
 function Get-PlatformIOScriptsDir {
-	[CmdletBinding()]
-	param(
-		[switch] $IsWindows = $Env:OS -eq "Windows_NT"
-	)
-
 	$coreDir = Get-PlatformIODir
 	$binDir = if ($IsWindows) {
 		Join-Path $coreDir "penv" "Scripts"
 	}
- else { 
+	else { 
 		Join-Path $coreDir "penv" "bin" 
 	}
 	return $binDir
