@@ -11,7 +11,7 @@ function Update-PoshPlatformIOIndex {
     $version = Get-PlatformIOVersion
 
     # Run the scan-cli.py script and capture its output as a JSON string
-    $tree = & $python $scanner -join ''
+    $tree = (& $python $scanner) -join ''
     if ($LASTEXITCODE -ne 0 -or -not $tree) {
         throw "scan-cli.py failed (exit code $LASTEXITCODE)"
     }
@@ -19,7 +19,8 @@ function Update-PoshPlatformIOIndex {
     # Ensure that the JSON is not malformed
     try {
         $null = $tree | ConvertFrom-Json
-    } catch {
+    }
+    catch {
         throw "scan-cli.py produced invalid JSON: $_"
     }
 
