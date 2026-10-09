@@ -9,31 +9,31 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'PoshPlatformIO.psm1'
+    RootModule           = 'PoshPlatformIO.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.1.0'
+    ModuleVersion        = '0.1.0'
 
     # Supported PSEditions
-    # CompatiblePSEditions = @()
+    CompatiblePSEditions = @('Core')
 
     # ID used to uniquely identify this module
-    GUID              = '2e1841b3-c242-4500-9b4a-ae47161a4b3d'
+    GUID                 = '2e1841b3-c242-4500-9b4a-ae47161a4b3d'
 
     # Author of this module
-    Author            = 'Shresht7'
+    Author               = 'Shresht7'
 
     # Company or vendor of this module
-    CompanyName       = 'Shresht7'
+    CompanyName          = 'Shresht7'
 
     # Copyright statement for this module
-    Copyright         = '(c) Shresht7. All rights reserved.'
+    Copyright            = '(c) Shresht7. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Helpers and tab-completion for PlatformIO CLIs (pio and platformio)'
+    Description          = 'Helpers and tab-completion for PlatformIO CLIs (pio and platformio)'
 
     # Minimum version of the PowerShell engine required by this module
-    # PowerShellVersion = ''
+    PowerShellVersion    = '7.0'
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @(
+    FunctionsToExport    = @(
         'Get-PlatformIODir',
         'Get-PlatformIOScriptsDir',
         'Get-PlatformIOExe',
@@ -97,7 +97,7 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData       = @{
+    PrivateData          = @{
 
         PSData = @{
 
