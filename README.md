@@ -1,6 +1,6 @@
-# PoshPlatformIO
+# `PoshPlatformIO`
 
-Tab completion and helper functions for the PlatformIO CLIs (`pio` and `platformio`)
+Tab completion and helper functions for the PlatformIO CLIs (`pio`/`platformio`)
 
 ⚠️ Work-in-Progress ⚠️
 
