@@ -2,4 +2,5 @@
 # The completer dispatches to these when an option has no static 'choices'.
 $Script:PlatformIOValueProviders = @{
     '--environment' = 'Get-PlatformIOEnvironmentNames'
+    '--board'       = 'Get-PlatformIOBoards'
 }
