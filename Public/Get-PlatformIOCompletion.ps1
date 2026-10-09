@@ -24,7 +24,8 @@ function Get-PlatformIOCompletion {
 
     # Walk the words already typed to find the command we're completing for
     foreach ($word in $Typed) {
-        if ($pending) { $pending; $null; continue } # This word was the option's value
+        if ($pending) { $pending = $null; continue } # This word was the option's value
+
         # Handle options and subcommands
         if ($word.StartsWith('-')) {
             if ($word.Contains('=')) { continue } # --opt=value is self-contained
