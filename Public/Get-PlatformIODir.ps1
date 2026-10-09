@@ -28,7 +28,8 @@ function Get-PlatformIOScriptsDir {
 	$coreDir = Get-PlatformIODir
 	$binDir = if ($IsWindows) {
 		Join-Path $coreDir "penv" "Scripts"
-	} else { 
+	}
+ else { 
 		Join-Path $coreDir "penv" "bin" 
 	}
 	return $binDir
