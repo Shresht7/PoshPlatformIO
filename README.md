@@ -1,6 +1,6 @@
 # `PoshPlatformIO`
 
-Tab completion and helper functions for the PlatformIO CLIs (`pio`/`platformio`)
+Tab completion and helper functions for the [PlatformIO][PlatformIO] CLIs (`pio`/`platformio`)
 
 ---
 
@@ -32,10 +32,22 @@ pio project init --board <Tab>  # completes board names
 
 [`Scripts/scan-cli.py`](Scripts/scan-cli.py) uses PlatformIO's own environment and python interpreter to walk the CLI command tree and emits a JSON representation of it, which is cached under `$Env:LOCALAPPDATA\PoshPlatformIO` on Windows, or `$XDG_CACHE_HOME/PoshPlatformIO` or `~/.cache/PoshPlatformIO` on Linux. The index is rebuilt when missing or when the installed version changes.
 
-Options with no fixed value list (`-e/--environment`. `-b/--board`) are completed dynamically at runtime using the registered value providers.
+Options with no fixed value list (`-e/--environment`, `-b/--board`) are completed dynamically at runtime using the registered value providers.
+
+## Related
+
+- [PlatformIO][PlatformIO]
+- [PlatformIO Documentation][PlatformIO-Docs]
+- [PlatformIO Core (GitHub)][PlatformIO-Core-GitHub]
 
 ---
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
+
+[PlatformIO]: https://platformio.org/
+[PlatformIO-Docs]: https://docs.platformio.org/
+[PlatformIO-Core-GitHub]: https://github.com/platformio/platformio-core
