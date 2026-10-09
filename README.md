@@ -2,8 +2,6 @@
 
 Tab completion and helper functions for the PlatformIO CLIs (`pio`/`platformio`)
 
-⚠️ Work-in-Progress ⚠️
-
 ---
 
 ## Requirements
@@ -25,13 +23,16 @@ Run `Update-PoshPlatformIOIndex` to rebuild it if necessary.
 Type a `pio` or `platformio` command and press <kbd>Tab</kbd> to complete subcommands, options and option values:
 
 ```powershell
-pio <Tab>                   # completes subcommands
-platformio run -e <Tab>     # completes environment names
+pio <Tab>                       # completes subcommands
+platformio run -e <Tab>         # completes environment names
+pio project init --board <Tab>  # completes board names
 ```
 
 ## How it works
 
 [`Scripts/scan-cli.py`](Scripts/scan-cli.py) uses PlatformIO's own environment and python interpreter to walk the CLI command tree and emits a JSON representation of it, which is cached under `$Env:LOCALAPPDATA\PoshPlatformIO` on Windows, or `$XDG_CACHE_HOME/PoshPlatformIO` or `~/.cache/PoshPlatformIO` on Linux. The index is rebuilt when missing or when the installed version changes.
+
+Options with no fixed value list (`-e/--environment`. `-b/--board`) are completed dynamically at runtime using the registered value providers.
 
 ---
 
