@@ -1,6 +1,6 @@
 # `PoshPlatformIO`
 
-Tab completion and helper functions for the [PlatformIO][PlatformIO] CLIs (`pio`/`platformio`)
+PowerShell Tab-Completions for the [PlatformIO][PlatformIO] CLI (`pio`/`platformio`)
 
 ---
 
