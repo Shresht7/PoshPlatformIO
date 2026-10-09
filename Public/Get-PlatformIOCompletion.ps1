@@ -22,15 +22,36 @@ function Get-PlatformIOCompletion {
     $node = (Get-PoshPlatformIOIndex).tree
     $pending = $null    # an option that is still waiting for its value
 
+    # Capture Context Options
+    $context = @{ ProjectDir = $null; ProjectConf = $null }
+    $contextKeys = @{
+        '-d' = 'ProjectDir'; '--project-dir' = 'ProjectDir'
+        '-c' = 'ProjectConf'; '--project-conf' = 'ProjectConf'
+    }
+    $contextCapture = $null
+
+
     # Walk the words already typed to find the command we're completing for
     foreach ($word in $Typed) {
-        if ($pending) { $pending = $null; continue } # This word was the option's value
+
+        # If there is a pending option, the current word is its value
+        if ($pending) {
+            if ($contextCapture) {
+                $context[$contextCapture] = $word
+            }
+            $pending = $null
+            $contextCapture = $null
+            continue
+        }
 
         # Handle options and subcommands
         if ($word.StartsWith('-')) {
             if ($word.Contains('=')) { continue } # --opt=value is self-contained
             $opt = $node.options | Where-Object { $_.names -contains $word } | Select-Object -First 1
-            if ($opt -and -not $opt.flag) { $pending = $opt }
+            if ($opt -and -not $opt.flag) {
+                $pending = $opt 
+                $contextCapture = $contextKeys[$word]
+            }
         }
         else {
             $sub = $node.commands.PSObject.Properties[$word]
@@ -40,16 +61,49 @@ function Get-PlatformIOCompletion {
 
     # The cursor is on the value of an option
     if ($pending) {
-        foreach ($choice in $pending.choices) {
-            if ($choice.StartsWith($Current, $cmp)) {
+        # Prefer the option's declared choices...
+        if ($pending.choices) {
+            foreach ($choice in $pending.choices) {
+                if ($choice.StartsWith($Current, $cmp)) {
+                    [PSCustomObject]@{
+                        Value   = $choice;
+                        Tooltip = $pending.help;
+                    }
+                }
+            }
+            return
+        }
+
+        # ...otherwise, fall back to a registered dynamic value provider
+        foreach ($name in $pending.names) {
+            if ($Script:PlatformIOValueProviders.ContainsKey($name)) {
+                $provider = $Script:PlatformIOValueProviders[$name]
+                break
+            }
+        }
+        if (-not $provider) { return } # No dynamic value provider found for the pending option
+
+        # Invoke the dynamic value provider to retrieve possible completions for the pending option
+        try {
+            $values = & $provider -Context $context
+        }
+        catch {
+            return # Fallback to default path completion
+        }
+
+        # Process the retrieved values and generate completion objects
+        foreach ($value in $values) {
+            if ($value.Value.StartsWith($Current, $cmp)) {
+                $tooltip = $value.Tooltip ?? $pending.help
                 [PSCustomObject]@{
-                    Value   = $choice;
-                    Tooltip = $pending.help;
+                    Value   = $value.Value;
+                    Tooltip = $tooltip;
                 }
             }
         }
-        return
+        return # Finished processing dynamic value provider completions
     }
+    
 
     # The user is typing an option name
     if ($Current.StartsWith('-')) {
