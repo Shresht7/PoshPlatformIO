@@ -27,7 +27,7 @@ function Get-PlatformIOExe {
 
 		# Check PATH environment variable first
 		$cmd = Get-Command $Name -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
-		if ($cmd) {
+		if ($cmd -and $Name -ne 'python') {
 			$path = $cmd.Source
 		}
 		# Fallback to PlatformIO's private Python environment
