@@ -13,7 +13,8 @@ from platformio.__main__ import cli
 
 def first_line(text: str | None) -> str:
     """Helper function to get the first line of the given text"""
-    return (text or "").strip().split("\n")[0]
+    lines = (text or "").splitlines()
+    return lines[0].strip() if lines else ""
 
 
 def walk(cmd: click.Command, ctx: click.Context) -> dict:
