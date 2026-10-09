@@ -2,6 +2,39 @@
 
 Tab completion and helper functions for the PlatformIO CLIs (`pio` and `platformio`)
 
-## Status
+⚠️ Work-in-Progress ⚠️
 
-Work-in-Progress
+---
+
+## Requirements
+
+- PowerShell 7.0+
+- PlatformIO
+  
+## Install
+
+```powershell
+Import-Module ./PoshPlatformIO.psd1
+```
+
+The command index builds automatically on import, so tab completion should work immediately.
+Run `Update-PoshPlatformIOIndex` to rebuild it if necessary.
+
+## Usage
+
+Type a `pio` or `platformio` command and press <kbd>Tab</kbd> to complete subcommands, options and option values:
+
+```powershell
+pio <Tab>                   # completes subcommands
+platformio run -e <Tab>     # completes environment names
+```
+
+## How it works
+
+[`Scripts/scan-cli.py`](Scripts/scan-cli.py) uses PlatformIO's own environment and python interpreter to walk the CLI command tree and emits a JSON representation of it, which is cached under `$Env:LOCALAPPDATA\PoshPlatformIO` on Windows, or `$XDG_CACHE_HOME/PoshPlatformIO` or `~/.cache/PoshPlatformIO` on Linux. The index is rebuilt when missing or when the installed version changes.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
