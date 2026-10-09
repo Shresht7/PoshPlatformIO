@@ -1,3 +1,5 @@
+$Script:ModuleRoot = $PSScriptRoot
+
 # Source the Private files
 Get-ChildItem -Path "$PSScriptRoot/Private" -Filter *.ps1 | ForEach-Object {
 	. $_.FullName

@@ -72,7 +72,9 @@ Description = 'Helpers and tab-completion for PlatformIO CLIs (pio and platformi
 FunctionsToExport = @(
     'Get-PlatformIODir',
     'Get-PlatformIOScriptsDir',
-    'Get-PlatformIOExe'
+    'Get-PlatformIOExe',
+    'Get-PoshPlatformIOIndexPath',
+    'Update-PoshPlatformIOIndex'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
