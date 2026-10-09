@@ -8,7 +8,7 @@
 function Get-PlatformIOExe {
 		[CmdletBinding()]
 		param(
-			[ValidateSet('pio', 'platformio')]
+			[ValidateSet('pio', 'platformio', 'python')]
 			[string] $Name = 'pio'
 		)
 
@@ -32,9 +32,8 @@ function Get-PlatformIOExe {
 		}
 		# Fallback to PlatformIO's private Python environment
 		else {
-			$coreDir = if ($Env:PLATFORMIO_CORE_DIR) { $Env:PLATFORMIO_CORE_DIR } else { Join-Path $HOME '.platformio' }
-			$isWindows = $Env:OS -eq 'Windows_NT'
-			$binDir = if ($isWindows) { Join-Path $coreDir 'penv\Scripts' } else { Join-Path $coreDir 'penv/bin' }
+			$isWindows = $Env:OS -eq "Windows_NT"
+			$binDir = Get-PlatformIOScriptsDir -IsWindows:$isWindows
 			$fileName = if ($isWindows) { "$Name.exe" } else { $Name }
 			$candidate = Join-Path $binDir $fileName
 			if (Test-Path -LiteralPath $candidate) { $path = $candidate }
